@@ -25,7 +25,7 @@ export function CrudList<T extends { id: string }>({
     const q = supabase.from(table).select("*");
     const ordered = "sort_order" in defaultRow ? q.order("sort_order") : q.order("created_at", { ascending: false });
     const { data } = await ordered;
-    setRows((data ?? []) as T[]);
+    setRows((data ?? []) as unknown as T[]);
   }
 
   useEffect(() => { load(); }, []);

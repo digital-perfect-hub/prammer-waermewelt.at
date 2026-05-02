@@ -7,7 +7,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-const TABS = [
+const TABS: { to: string; label: string; exact?: boolean }[] = [
   { to: "/admin", label: "Übersicht", exact: true },
   { to: "/admin/settings", label: "Einstellungen" },
   { to: "/admin/services", label: "Leistungen" },
@@ -16,7 +16,7 @@ const TABS = [
   { to: "/admin/faqs", label: "FAQ" },
   { to: "/admin/seo", label: "SEO" },
   { to: "/admin/messages", label: "Anfragen" },
-] as const;
+];
 
 function AdminLayout() {
   const router = useRouter();
@@ -57,8 +57,8 @@ function AdminLayout() {
         {TABS.map((t) => (
           <Link
             key={t.to}
-            to={t.to}
-            activeOptions={{ exact: t.exact }}
+            to={t.to as any}
+            activeOptions={{ exact: !!t.exact }}
             activeProps={{ className: "bg-primary text-primary-foreground" }}
             className="rounded-md px-4 py-2 text-sm font-medium hover:bg-muted"
           >
