@@ -25,11 +25,11 @@ export function SiteHeader() {
             <img src={settings.logo_url} alt={settings.company_name} className="h-9 w-auto" />
           ) : (
             <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground font-black">
-              M
+              P
             </span>
           )}
           <span className="hidden sm:inline">
-            {settings?.company_name ?? "Mustermann Bau"}
+            {settings?.company_name ?? "Prammer & Prammer"}
           </span>
         </Link>
 

@@ -12,8 +12,8 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Mustermann Bau & Sanierung – Handwerk mit Substanz | Berlin" },
-      { name: "description", content: "Ihr regionaler Meisterbetrieb für Bau, Sanierung, Dachdeckerei und Spenglerei in Berlin und Brandenburg. Kostenlose Anfrage in 24h." },
+      { title: "Prammer & Prammer GmbH – Installateur in Linz | Sanitär, Heizung, Bad" },
+      { name: "description", content: "Ihr Meisterbetrieb für Sanitär, Heizung und Badsanierung in Linz und Oberösterreich. 24h Notdienst, Festpreisgarantie, kostenlose Beratung." },
     ],
   }),
   component: HomePage,
@@ -55,13 +55,13 @@ function HomePage() {
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-8 text-xs uppercase tracking-[0.2em] text-accent font-semibold">
               <span className="accent-rule" />
-              Meisterbetrieb seit 1998
+              Installateur-Meisterbetrieb seit 1998
             </div>
             <h1 className="font-display font-extrabold text-balance leading-[0.95] tracking-tight text-[clamp(2.5rem,7vw,5.5rem)]">
-              {settings?.hero_headline ?? "Handwerk. Substanz. Vertrauen."}
+              {settings?.hero_headline ?? "Wasser. Wärme. Wohlbefinden."}
             </h1>
             <p className="mt-6 max-w-2xl text-lg md:text-xl text-primary-foreground/80 text-pretty leading-relaxed">
-              {settings?.hero_subheadline ?? "Ihr regionaler Meisterbetrieb für Bau, Sanierung und Dachdeckerei."}
+              {settings?.hero_subheadline ?? "Ihr Meisterbetrieb für Sanitär, Heizung und Badgestaltung in Linz und Oberösterreich."}
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
@@ -186,7 +186,7 @@ function HomePage() {
               Wir sind in Ihrer Region für Sie da.
             </h2>
             <p className="mt-5 text-primary-foreground/70 max-w-md">
-              Berlin, Potsdam und das gesamte Berliner Umland – kurze Wege, schnelle Reaktionszeiten.
+              Linz, Leonding, Traun, Wels und der gesamte Zentralraum Oberösterreich – kurze Wege, schnelle Reaktionszeiten.
             </p>
             <Link
               to="/einsatzgebiete"

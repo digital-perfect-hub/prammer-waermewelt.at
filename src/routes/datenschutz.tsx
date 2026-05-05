@@ -15,7 +15,7 @@ function DatenschutzPage() {
       <PageHero title="Datenschutzerklärung" />
       <section className="container-tight py-16 max-w-3xl space-y-10">
         <Block title="1. Verantwortlicher">
-          <p>{settings?.company_name ?? "Mustermann Bau & Sanierung GmbH"}<br />{settings?.address}<br />E-Mail: {settings?.email}</p>
+          <p>{settings?.company_name ?? "Prammer & Prammer GmbH"}<br />{settings?.address ?? "Reindlstraße 21, 4040 Linz"}<br />E-Mail: {settings?.email ?? "office@prammer-installationen.at"}</p>
         </Block>
         <Block title="2. Erhebung und Speicherung personenbezogener Daten">
           <p>Bei der Nutzung des Kontaktformulars erheben wir folgende Daten: Name, E-Mail-Adresse, Telefonnummer (optional), Projektart und Nachricht. Die Verarbeitung erfolgt zur Bearbeitung Ihrer Anfrage auf Grundlage von Art. 6 Abs. 1 lit. b und f DSGVO.</p>
