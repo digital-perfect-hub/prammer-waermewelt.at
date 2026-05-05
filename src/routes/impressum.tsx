@@ -3,7 +3,7 @@ import { useSeo, useSiteSettings } from "@/hooks/useSiteSettings";
 import { PageHero } from "@/components/PageHero";
 
 export const Route = createFileRoute("/impressum")({
-  head: () => ({ meta: [{ title: "Impressum" }, { name: "description", content: "Impressum und Anbieterkennzeichnung." }] }),
+  head: () => ({ meta: [{ title: "Impressum | Prammer & Prammer GmbH" }, { name: "description", content: "Impressum und Anbieterkennzeichnung." }] }),
   component: ImpressumPage,
 });
 
@@ -15,28 +15,30 @@ function ImpressumPage() {
       <PageHero title="Impressum" />
       <section className="container-tight py-16 max-w-3xl">
         <div className="prose-style space-y-8 text-foreground">
-          <Block title="Angaben gemäß § 5 TMG">
-            <p><strong>{settings?.company_name ?? "Mustermann Bau & Sanierung GmbH"}</strong></p>
-            <p>{settings?.address ?? "Industriestraße 12, 10115 Berlin"}</p>
+          <Block title="Angaben gemäß § 5 ECG / § 14 UGB">
+            <p><strong>{settings?.company_name ?? "Prammer & Prammer GmbH"}</strong></p>
+            <p>{settings?.address ?? "Reindlstraße 21, 4040 Linz"}</p>
+            <p>Österreich</p>
           </Block>
           <Block title="Vertreten durch">
-            <p>Geschäftsführer: Max Mustermann</p>
+            <p>Geschäftsführer: Ing. Stefan Prammer</p>
           </Block>
           <Block title="Kontakt">
-            <p>Telefon: {settings?.phone ?? "+49 30 1234 5678"}</p>
-            <p>E-Mail: {settings?.email ?? "info@mustermann-bau.de"}</p>
+            <p>Telefon: {settings?.phone ?? "+43 732 123456"}</p>
+            <p>E-Mail: {settings?.email ?? "office@prammer-installationen.at"}</p>
           </Block>
-          <Block title="Registereintrag">
-            <p>Eintragung im Handelsregister<br />Registergericht: Amtsgericht Berlin-Charlottenburg<br />Registernummer: HRB 123456</p>
+          <Block title="Firmenbuch">
+            <p>Firmenbuchnummer: FN 123456 a<br />Firmenbuchgericht: Landesgericht Linz</p>
           </Block>
           <Block title="Umsatzsteuer-ID">
-            <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: DE123456789</p>
+            <p>UID-Nummer: ATU12345678</p>
           </Block>
-          <Block title="Berufshaftpflichtversicherung">
-            <p>Musterversicherung AG, Musterstraße 1, 10115 Berlin<br />Geltungsraum: Deutschland</p>
+          <Block title="Mitgliedschaften & Behörde">
+            <p>Mitglied der Wirtschaftskammer Oberösterreich, Landesinnung der Sanitär-, Heizungs- und Lüftungstechniker.<br />
+            Aufsichtsbehörde: Magistrat der Stadt Linz</p>
           </Block>
-          <Block title="Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV">
-            <p>Max Mustermann, Anschrift wie oben</p>
+          <Block title="Berufsbezeichnung & Berufsrechtliche Regelungen">
+            <p>Installateur (verliehen in Österreich), tätig nach der Gewerbeordnung 1994 (GewO) – einsehbar auf <a href="https://www.ris.bka.gv.at" className="text-primary underline-offset-4 hover:underline">www.ris.bka.gv.at</a>.</p>
           </Block>
           <Block title="Streitschlichtung">
             <p className="text-muted-foreground">
