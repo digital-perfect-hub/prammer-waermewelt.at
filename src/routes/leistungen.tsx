@@ -9,8 +9,8 @@ import { ServiceCard } from "@/components/ServiceCard";
 export const Route = createFileRoute("/leistungen")({
   head: () => ({
     meta: [
-      { title: "Unsere Leistungen – Bau, Sanierung, Dach, Fassade" },
-      { name: "description", content: "Hochbau, Sanierung, Dachdeckerei, Spenglerei, Fassade und Notdienst – alles aus einer Meisterhand." },
+      { title: "Leistungen Installateur Linz | Sanitär, Heizung, Bad" },
+      { name: "description", content: "Sanitärinstallation, Heizungstechnik, Badsanierung, Solar- und Wärmetechnik sowie Service in Linz und Umgebung." },
     ],
   }),
   component: ServicesPage,
@@ -29,8 +29,8 @@ function ServicesPage() {
     <>
       <PageHero
         eyebrow="Leistungen"
-        title="Unser komplettes Leistungs­spektrum"
-        description="Von der Planung bis zur Übergabe – wir realisieren Ihr Bauprojekt schlüsselfertig mit eigenen Meistern und Gesellen."
+        title="Installateur-Leistungen für Linz und Umgebung"
+        description="Sanitär, Heizung, Bad, Reparatur und Wärmetechnik: Prammer & Prammer GmbH bündelt verlässliche Installateurarbeit für private Haushalte und Betriebe."
       />
       <section className="container-tight py-20">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

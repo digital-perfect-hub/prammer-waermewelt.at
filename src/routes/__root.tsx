@@ -2,6 +2,7 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { MobileStickyCta } from "@/components/MobileStickyCta";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -31,9 +32,12 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Mustermann Bau & Sanierung – Handwerk mit Substanz" },
-      { name: "description", content: "Regionaler Meisterbetrieb für Bau, Sanierung und Dachdeckerei." },
+      { title: "Installateur Linz | Prammer & Prammer GmbH" },
+      { name: "description", content: "Sanitär, Heizung, Bad & Wärmetechnik in Linz. Prammer & Prammer GmbH – Ihr Installateur in 4040 Linz." },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "de_AT" },
+      { property: "og:title", content: "Installateur Linz | Prammer & Prammer GmbH" },
+      { property: "og:description", content: "Sanitär, Heizung, Bad & Wärmetechnik in Linz. Prammer & Prammer GmbH – Ihr Installateur in 4040 Linz." },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -53,7 +57,7 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de">
+    <html lang="de-AT">
       <head>
         <HeadContent />
       </head>
@@ -67,12 +71,13 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div className="flex min-h-screen flex-col bg-background pb-20 text-foreground md:pb-0">
       <SiteHeader />
       <main className="flex-1">
         <Outlet />
       </main>
       <SiteFooter />
+      <MobileStickyCta />
       <Toaster richColors position="top-center" />
     </div>
   );

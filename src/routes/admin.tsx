@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, Link, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { LogOut } from "lucide-react";
+import { LogOut, ShieldAlert } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin")({
@@ -18,27 +18,68 @@ const TABS: { to: string; label: string; exact?: boolean }[] = [
   { to: "/admin/messages", label: "Anfragen" },
 ];
 
+type AuthState = "loading" | "signed_out" | "forbidden" | "admin";
+
 function AdminLayout() {
   const router = useRouter();
-  const [ready, setReady] = useState(false);
-  const [authed, setAuthed] = useState(false);
+  const [authState, setAuthState] = useState<AuthState>("loading");
 
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      setAuthed(!!session);
-      setReady(true);
+    let cancelled = false;
+
+    async function verifyAdmin() {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        if (!cancelled) setAuthState("signed_out");
+        return;
+      }
+
+      const { data, error } = await supabase.rpc("current_user_is_admin");
+      if (cancelled) return;
+      if (error || data !== true) {
+        setAuthState("forbidden");
+        return;
+      }
+      setAuthState("admin");
+    }
+
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      verifyAdmin();
     });
-    supabase.auth.getSession().then(({ data }) => {
-      setAuthed(!!data.session);
-      setReady(true);
-    });
-    return () => sub.subscription.unsubscribe();
+    verifyAdmin();
+
+    return () => {
+      cancelled = true;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
-  if (!ready) return <div className="container-tight py-20 text-muted-foreground">Lädt…</div>;
+  if (authState === "loading") return <div className="container-tight py-20 text-muted-foreground">Lädt…</div>;
 
-  if (!authed) {
-    return <LoginScreen onSuccess={() => setAuthed(true)} />;
+  if (authState === "signed_out") {
+    return <LoginScreen onSuccess={() => setAuthState("loading")} />;
+  }
+
+  if (authState === "forbidden") {
+    return (
+      <div className="container-tight py-20 max-w-xl">
+        <div className="rounded-xl border border-destructive/25 bg-card p-8 shadow-card">
+          <div className="grid h-12 w-12 place-items-center rounded-md bg-destructive/10 text-destructive">
+            <ShieldAlert className="h-6 w-6" />
+          </div>
+          <h1 className="mt-6 font-display text-3xl font-extrabold">Kein Admin-Zugriff</h1>
+          <p className="mt-3 text-muted-foreground">
+            Sie sind angemeldet, haben aber keine Admin-Rolle. Bitte weisen Sie dem Benutzer in Supabase die Rolle <strong>admin</strong> zu.
+          </p>
+          <button
+            onClick={async () => { await supabase.auth.signOut(); router.invalidate(); setAuthState("signed_out"); }}
+            className="mt-6 inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-muted"
+          >
+            <LogOut className="h-4 w-4" /> Abmelden
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -46,7 +87,7 @@ function AdminLayout() {
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
         <h1 className="font-display text-3xl font-extrabold">Admin-Bereich</h1>
         <button
-          onClick={async () => { await supabase.auth.signOut(); router.invalidate(); }}
+          onClick={async () => { await supabase.auth.signOut(); router.invalidate(); setAuthState("signed_out"); }}
           className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-muted"
         >
           <LogOut className="h-4 w-4" /> Abmelden
@@ -108,7 +149,7 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
           {loading ? "Anmelden…" : "Anmelden"}
         </button>
         <p className="text-xs text-muted-foreground">
-          Hinweis: Registrierung ist deaktiviert. Admins werden manuell vom Betreiber angelegt.
+          Hinweis: Der Admin-Bereich prüft zusätzlich zur Anmeldung die Supabase-Rolle <strong>admin</strong>.
         </p>
       </form>
     </div>

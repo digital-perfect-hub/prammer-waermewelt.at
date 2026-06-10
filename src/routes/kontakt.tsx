@@ -10,8 +10,8 @@ import { PageHero } from "@/components/PageHero";
 export const Route = createFileRoute("/kontakt")({
   head: () => ({
     meta: [
-      { title: "Kontakt & Anfrage stellen | Mustermann Bau Berlin" },
-      { name: "description", content: "Kontaktieren Sie uns für Ihr Bauprojekt. Kostenlose Erstberatung." },
+      { title: "Kontakt Installateur Linz | Prammer & Prammer GmbH" },
+      { name: "description", content: "Kontakt zu Prammer & Prammer GmbH in Linz: Anfrage für Sanitär, Heizung, Bad, Service und Wärmetechnik stellen." },
     ],
   }),
   component: ContactPage,
@@ -26,7 +26,16 @@ const Schema = z.object({
   consent: z.literal(true, { errorMap: () => ({ message: "Bitte Datenschutz akzeptieren" }) }),
 });
 
-const PROJECT_TYPES = ["Hochbau / Neubau", "Sanierung", "Dachdeckerei", "Spenglerei", "Fassade", "Notdienst", "Sonstiges"];
+const PROJECT_TYPES = [
+  "Sanitärinstallation",
+  "Badsanierung",
+  "Heizungstechnik",
+  "Wartung / Service",
+  "Solar- & Wärmetechnik",
+  "Reparatur",
+  "Umbau / Neubau",
+  "Sonstiges",
+];
 
 function ContactPage() {
   useSeo("/kontakt");
@@ -34,6 +43,9 @@ function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const phone = settings?.phone || "+43 732 282028";
+  const email = settings?.email?.trim();
+  const address = settings?.address || "Reindlstraße 21, 4040 Linz";
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -64,86 +76,82 @@ function ContactPage() {
     });
     setSubmitting(false);
     if (error) {
-      toast.error("Anfrage konnte nicht gesendet werden. Bitte später erneut versuchen.");
+      toast.error("Anfrage konnte nicht gesendet werden. Bitte telefonisch versuchen.");
       return;
     }
     setDone(true);
-    toast.success("Vielen Dank! Wir melden uns innerhalb von 24h.");
+    toast.success("Vielen Dank! Ihre Anfrage wurde gesendet.");
   }
 
   return (
     <>
       <PageHero
         eyebrow="Kontakt"
-        title="Lassen Sie uns über Ihr Projekt sprechen"
-        description="Kostenlose Erstberatung, schnelle Rückmeldung, faire Festpreise."
+        title="Anfrage an Prammer & Prammer GmbH"
+        description="Schreiben Sie kurz, wobei Sie Unterstützung benötigen. Wir melden uns persönlich bei Ihnen zurück."
       />
 
       <section className="container-tight py-20 grid gap-12 lg:grid-cols-[1fr_2fr] items-start">
         <aside className="space-y-6">
           <div>
             <h2 className="font-display text-2xl font-bold">Direkt kontaktieren</h2>
-            <p className="mt-2 text-muted-foreground text-sm">Wir sind Mo–Fr 7:00 – 18:00 Uhr persönlich erreichbar.</p>
+            <p className="mt-2 text-muted-foreground text-sm">Für Sanitär, Heizung, Bad, Service und Wärmetechnik in Linz.</p>
           </div>
-          {settings?.phone && (
-            <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="flex items-start gap-4 group">
-              <div className="grid h-11 w-11 place-items-center rounded-md bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition">
-                <Phone className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest text-muted-foreground">Telefon</p>
-                <p className="font-semibold">{settings.phone}</p>
-              </div>
-            </a>
-          )}
-          {settings?.email && (
-            <a href={`mailto:${settings.email}`} className="flex items-start gap-4 group">
-              <div className="grid h-11 w-11 place-items-center rounded-md bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition">
+          <a href={`tel:${phone.replace(/[^+\d]/g, "")}`} className="premium-lift flex items-start gap-4 rounded-2xl border border-border bg-white p-5 group">
+            <div className="grid h-11 w-11 place-items-center rounded-xl bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition">
+              <Phone className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-widest text-muted-foreground">Telefon</p>
+              <p className="font-semibold">{phone}</p>
+            </div>
+          </a>
+          {email && (
+            <a href={`mailto:${email}`} className="premium-lift flex items-start gap-4 rounded-2xl border border-border bg-white p-5 group">
+              <div className="grid h-11 w-11 place-items-center rounded-xl bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition">
                 <Mail className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-xs uppercase tracking-widest text-muted-foreground">E-Mail</p>
-                <p className="font-semibold">{settings.email}</p>
+                <p className="font-semibold">{email}</p>
               </div>
             </a>
           )}
-          {settings?.address && (
-            <div className="flex items-start gap-4">
-              <div className="grid h-11 w-11 place-items-center rounded-md bg-accent/10 text-accent">
-                <MapPin className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest text-muted-foreground">Adresse</p>
-                <p className="font-semibold">{settings.address}</p>
-              </div>
+          <div className="premium-lift flex items-start gap-4 rounded-2xl border border-border bg-white p-5">
+            <div className="grid h-11 w-11 place-items-center rounded-xl bg-accent/10 text-accent">
+              <MapPin className="h-5 w-5" />
             </div>
-          )}
+            <div>
+              <p className="text-xs uppercase tracking-widest text-muted-foreground">Adresse</p>
+              <p className="font-semibold">{address}</p>
+            </div>
+          </div>
         </aside>
 
-        <div className="rounded-xl border border-border bg-card p-7 md:p-10 shadow-card">
+        <div className="rounded-3xl border border-border bg-white p-7 md:p-10 shadow-card">
           {done ? (
             <div className="text-center py-12">
-              <div className="mx-auto h-16 w-16 grid place-items-center rounded-full bg-accent/15 text-accent text-3xl">✓</div>
+              <div className="mx-auto h-16 w-16 grid place-items-center rounded-2xl bg-accent/15 text-accent text-3xl">✓</div>
               <h3 className="mt-6 font-display text-2xl font-bold">Vielen Dank!</h3>
               <p className="mt-3 text-muted-foreground max-w-md mx-auto">
-                Ihre Anfrage ist bei uns eingegangen. Wir melden uns innerhalb von 24 Stunden bei Ihnen.
+                Ihre Anfrage ist bei uns eingegangen. Wir melden uns persönlich bei Ihnen zurück.
               </p>
             </div>
           ) : (
             <form onSubmit={onSubmit} className="space-y-5" noValidate>
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field label="Name *" error={errors.name}>
-                  <input name="name" required className={inputCls} placeholder="Max Mustermann" />
+                  <input name="name" required className={inputCls} placeholder="Ihr Name" />
                 </Field>
                 <Field label="E-Mail *" error={errors.email}>
-                  <input type="email" name="email" required className={inputCls} placeholder="max@example.com" />
+                  <input type="email" name="email" required className={inputCls} placeholder="name@example.at" />
                 </Field>
               </div>
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field label="Telefon" error={errors.phone}>
-                  <input name="phone" className={inputCls} placeholder="+49 30 1234567" />
+                  <input name="phone" className={inputCls} placeholder="+43 ..." />
                 </Field>
-                <Field label="Projektart" error={errors.project_type}>
+                <Field label="Anliegen" error={errors.project_type}>
                   <select name="project_type" className={inputCls} defaultValue="">
                     <option value="">Bitte wählen</option>
                     {PROJECT_TYPES.map((t) => <option key={t}>{t}</option>)}
@@ -151,7 +159,7 @@ function ContactPage() {
                 </Field>
               </div>
               <Field label="Ihre Nachricht *" error={errors.message}>
-                <textarea name="message" required rows={6} className={inputCls} placeholder="Beschreiben Sie kurz Ihr Vorhaben…" />
+                <textarea name="message" required rows={6} className={inputCls} placeholder="Beschreiben Sie kurz Ihr Anliegen, z. B. Bad, Heizung, Reparatur oder Sanierung…" />
               </Field>
 
               <label className="flex items-start gap-3 text-sm cursor-pointer">
@@ -165,7 +173,7 @@ function ContactPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-md bg-accent px-7 py-4 font-semibold text-accent-foreground hover:opacity-90 disabled:opacity-50 shadow-glow"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 premium-shine rounded-xl bg-accent px-7 py-4 font-bold text-accent-foreground hover:opacity-90 disabled:opacity-50 shadow-glow"
               >
                 {submitting ? <><Loader2 className="h-4 w-4 animate-spin" /> Wird gesendet…</> : <><Send className="h-4 w-4" /> Anfrage senden</>}
               </button>
@@ -177,7 +185,7 @@ function ContactPage() {
   );
 }
 
-const inputCls = "w-full rounded-md border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent transition";
+const inputCls = "w-full rounded-xl border border-input bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition";
 
 function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
   return (

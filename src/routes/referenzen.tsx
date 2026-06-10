@@ -9,8 +9,8 @@ import { ProjectCard } from "@/components/ProjectCard";
 export const Route = createFileRoute("/referenzen")({
   head: () => ({
     meta: [
-      { title: "Referenzen & Projekte | Mustermann Bau Berlin" },
-      { name: "description", content: "Über 500 erfolgreich abgeschlossene Bauprojekte in Berlin und Brandenburg." },
+      { title: "Referenzen Installateur Linz | Prammer & Prammer GmbH" },
+      { name: "description", content: "Ausgewählte Installateurarbeiten und typische Projekte rund um Sanitär, Bad, Heizung und Wärmetechnik in Linz." },
     ],
   }),
   component: ReferencesPage,
@@ -29,8 +29,8 @@ function ReferencesPage() {
     <>
       <PageHero
         eyebrow="Referenzen"
-        title="Projekte, die für sich sprechen"
-        description="Eine Auswahl unserer Bauprojekte aus Berlin, Potsdam und Umgebung."
+        title="Installateurarbeiten, die Vertrauen schaffen"
+        description="Eine Auswahl typischer Arbeiten rund um Badsanierung, Heizungstechnik, Neubau, Solarthermie und Sanitär in Linz und Umgebung."
       />
       <section className="container-tight py-20">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

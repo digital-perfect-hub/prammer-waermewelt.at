@@ -32,17 +32,17 @@ BEGIN NEW.updated_at = now(); RETURN NEW; END $$;
 -- ============ SITE SETTINGS (singleton) ============
 CREATE TABLE public.site_settings (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  company_name text NOT NULL DEFAULT 'Mustermann Bau GmbH',
+  company_name text NOT NULL DEFAULT 'Prammer & Prammer GmbH',
   logo_url text,
-  phone text NOT NULL DEFAULT '+49 30 1234567',
-  email text NOT NULL DEFAULT 'info@mustermann-bau.de',
-  address text NOT NULL DEFAULT 'Hauptstraße 1, 10115 Berlin',
-  hero_headline text NOT NULL DEFAULT 'Handwerk mit Substanz',
-  hero_subheadline text NOT NULL DEFAULT 'Ihr regionaler Partner für Bau, Sanierung und Dachdeckerarbeiten – seit über 25 Jahren.',
+  phone text NOT NULL DEFAULT '+43 732 282028',
+  email text NOT NULL DEFAULT '',
+  address text NOT NULL DEFAULT 'Reindlstraße 21, 4040 Linz',
+  hero_headline text NOT NULL DEFAULT 'Ihr Installateur in Linz für Bad, Heizung & Sanitär',
+  hero_subheadline text NOT NULL DEFAULT 'Sanitärinstallation, Heizungstechnik, Badsanierung und Wärmelösungen für private Haushalte und Betriebe in Linz.',
   hero_image_url text,
-  cta_text text NOT NULL DEFAULT 'Kostenlose Anfrage stellen',
-  primary_color text NOT NULL DEFAULT '#1a2332',
-  accent_color text NOT NULL DEFAULT '#e58a2d',
+  cta_text text NOT NULL DEFAULT 'Anfrage stellen',
+  primary_color text NOT NULL DEFAULT '#0B2D5C',
+  accent_color text NOT NULL DEFAULT '#D71920',
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
 );
@@ -156,48 +156,48 @@ CREATE POLICY "Admins upload site-images" ON storage.objects FOR INSERT TO authe
 CREATE POLICY "Admins update site-images" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'site-images' AND public.is_admin());
 CREATE POLICY "Admins delete site-images" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'site-images' AND public.is_admin());
 
--- ============ SEED DEMO DATA ============
-INSERT INTO public.site_settings (company_name, phone, email, address, hero_headline, hero_subheadline, cta_text)
-VALUES ('Mustermann Bau & Sanierung', '+49 30 1234 5678', 'info@mustermann-bau.de', 'Industriestraße 12, 10115 Berlin', 'Handwerk. Substanz. Vertrauen.', 'Ihr regionaler Meisterbetrieb für Bau, Sanierung, Dachdeckerei und Spenglerei – seit über 25 Jahren in Berlin und Brandenburg.', 'Kostenlose Anfrage stellen');
+-- ============ SEED DATA: PRAMMER & PRAMMER ============
+INSERT INTO public.site_settings (company_name, phone, email, address, hero_headline, hero_subheadline, hero_image_url, cta_text, primary_color, accent_color)
+VALUES ('Prammer & Prammer GmbH', '+43 732 282028', '', 'Reindlstraße 21, 4040 Linz', 'Ihr Installateur in Linz für Bad, Heizung & Sanitär', 'Sanitärinstallation, Heizungstechnik, Badsanierung und Wärmelösungen für private Haushalte und Betriebe in Linz.', 'https://images.unsplash.com/photo-1749532125405-70950966b0e5?auto=format&fit=crop&w=1920&q=82', 'Anfrage stellen', '#0B2D5C', '#D71920');
 
-INSERT INTO public.services (title, description, icon, sort_order) VALUES
-('Hochbau & Massivbau', 'Schlüsselfertige Errichtung von Wohn- und Gewerbeimmobilien in höchster Qualität – vom Fundament bis zum First.', 'Building2', 1),
-('Sanierung & Modernisierung', 'Energetische Sanierung, Altbaumodernisierung und denkmalgerechte Restaurierung mit fachkundiger Beratung.', 'Wrench', 2),
-('Dachdeckerei', 'Steildach, Flachdach, Dachsanierung und Reparaturen – inklusive Wärmedämmung und Photovoltaik-Integration.', 'Home', 3),
-('Spenglerei & Klempnerei', 'Dachrinnen, Fallrohre, Verblechungen und Metallarbeiten in präziser Meisterqualität.', 'Hammer', 4),
-('Fassade & Außenanlagen', 'Fassadendämmung, Putzarbeiten und Gestaltung – langlebig, witterungsbeständig und energieeffizient.', 'Layers', 5),
-('Notdienst & Reparatur', '24/7 Soforthilfe bei Sturmschäden, Wasserschäden und akuten Bauproblemen in Ihrer Region.', 'AlertTriangle', 6);
+INSERT INTO public.services (title, description, icon, image_url, sort_order) VALUES
+('Sanitärinstallation', 'Wasserleitungen, Anschlüsse, Armaturen und Sanitärtechnik für Neubau, Umbau und Sanierung.', 'Droplets', 'https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&w=1200&q=82', 1),
+('Heizungstechnik', 'Heizungsanlagen, Wärmeverteilung, Modernisierung und verlässliche Abstimmung rund um effiziente Wärmelösungen.', 'Flame', 'https://images.unsplash.com/photo-1749532125405-70950966b0e5?auto=format&fit=crop&w=1920&q=82', 2),
+('Badsanierung', 'Teil- und Komplettsanierungen für Badezimmer – von Dusche, WC und Waschtisch bis zur funktionalen Gesamtlösung.', 'Bath', 'https://images.unsplash.com/photo-1769356814886-abdadde25ea7?auto=format&fit=crop&w=1200&q=82', 3),
+('Solar- & Wärmetechnik', 'Lösungen für Warmwasser, Solartechnik und zukunftsfähige Wärmekonzepte im Bestand und Neubau.', 'Sun', 'https://images.unsplash.com/photo-1749532125405-70950966b0e5?auto=format&fit=crop&w=1920&q=82', 4),
+('Wartung & Service', 'Service, Kontrolle und Instandhaltung von Sanitär- und Heizsystemen mit klarer Rückmeldung.', 'Thermometer', 'https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&w=1200&q=82', 5),
+('Reparatur & Austausch', 'Schnelle Hilfe bei defekten Armaturen, Leitungen, Anschlüssen und typischen Installateurarbeiten.', 'Wrench', 'https://images.unsplash.com/photo-1769356814886-abdadde25ea7?auto=format&fit=crop&w=1200&q=82', 6);
 
-INSERT INTO public.projects (title, description, location, category, sort_order) VALUES
-('Mehrfamilienhaus Prenzlauer Berg', 'Komplette energetische Sanierung eines Gründerzeitgebäudes mit 18 Wohneinheiten inklusive Dachneueindeckung.', 'Berlin', 'Sanierung', 1),
-('Industriehalle Adlershof', 'Neubau einer 2.400 m² Produktionshalle in Stahlbetonbauweise mit Bürotrakt.', 'Berlin', 'Hochbau', 2),
-('Reihenhausanlage Potsdam', 'Schlüsselfertige Errichtung von 8 Reihenhäusern in Niedrigenergiebauweise.', 'Potsdam', 'Hochbau', 3),
-('Dachsanierung Villa Wannsee', 'Komplette Neueindeckung und Dämmung eines historischen Walmdachs mit Naturschiefer.', 'Berlin', 'Dachdeckerei', 4),
-('Fassadensanierung Bürohaus Mitte', 'WDVS-Fassadendämmung und Neugestaltung eines fünfstöckigen Bürogebäudes.', 'Berlin', 'Fassade', 5),
-('Spenglerarbeiten Schloss Rheinsberg', 'Denkmalgerechte Kupferarbeiten an Türmen und Dachgauben.', 'Rheinsberg', 'Spenglerei', 6);
+INSERT INTO public.projects (title, description, location, category, image_url, sort_order) VALUES
+('Komplettsanierung Stadtbad', 'Modernes Wellness-Bad mit ebenerdiger Dusche und LED-Lichtkonzept in einer Linzer Altbauwohnung.', 'Linz – Innenstadt', 'Badsanierung', 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1200&q=84', 1),
+('Wärmepumpe Einfamilienhaus', 'Umstellung von Ölheizung auf eine Luft-Wasser-Wärmepumpe inklusive Pufferspeicher und Förderabwicklung.', 'Leonding', 'Heizungstechnik', 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=84', 2),
+('Pelletsheizung Mehrparteienhaus', 'Tausch der zentralen Gasheizung gegen eine vollautomatische Pelletsanlage mit Solarunterstützung.', 'Traun', 'Heizungstechnik', 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=84', 3),
+('Barrierefreies Bad', 'Altersgerechter Badumbau mit bodengleicher Dusche, Stützgriffen und rutschhemmenden Fliesen.', 'Linz – Urfahr', 'Badsanierung', 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=84', 4),
+('Sanitärinstallation Neubau', 'Komplette Sanitär- und Heizungsinstallation in einem Doppelhaus mit kontrollierter Wohnraumlüftung.', 'Engerwitzdorf', 'Neubau', 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=84', 5),
+('Solarthermie-Anlage', 'Aufdach-Solarthermie für Warmwasser und Heizungsunterstützung auf einem Reihenhaus.', 'Pasching', 'Solar', 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=84', 6);
 
-INSERT INTO public.locations (name, postal_code, sort_order) VALUES
-('Berlin', '10000–14199', 1),
-('Potsdam', '14467–14482', 2),
-('Brandenburg an der Havel', '14770', 3),
-('Oranienburg', '16515', 4),
-('Bernau bei Berlin', '16321', 5),
-('Falkensee', '14612', 6);
+INSERT INTO public.locations (name, postal_code, description, sort_order) VALUES
+('Linz', '4020–4040', 'Installateurleistungen im Linzer Stadtgebiet.', 1),
+('Urfahr', '4040', 'Kurze Wege im direkten Umfeld des Firmenstandorts.', 2),
+('Leonding', '4060', 'Sanitär-, Heizungs- und Servicearbeiten westlich von Linz.', 3),
+('Traun', '4050', 'Installateurarbeiten im Zentralraum Oberösterreich.', 4),
+('Wels', '4600', 'Service und Projektanfragen nach Abstimmung.', 5),
+('Oberösterreich Zentralraum', null, 'Regionale Anfragen je nach Projektumfang und Verfügbarkeit.', 6);
 
 INSERT INTO public.faqs (question, answer, sort_order) VALUES
-('Wie schnell erhalte ich ein Angebot?', 'Nach Ihrer Anfrage melden wir uns innerhalb von 24 Stunden zur Terminabstimmung für die kostenlose Vor-Ort-Besichtigung. Das schriftliche Angebot folgt typischerweise innerhalb von 5 Werktagen.', 1),
-('Sind Vor-Ort-Besichtigung und Angebot kostenlos?', 'Ja. Erstberatung, Besichtigung und Angebotserstellung sind für Sie vollständig kostenfrei und unverbindlich.', 2),
-('In welchen Regionen sind Sie tätig?', 'Wir sind primär in Berlin, Potsdam und im gesamten Berliner Umland aktiv. Bei Großprojekten arbeiten wir auch überregional.', 3),
-('Übernehmen Sie auch Versicherungsschäden?', 'Ja, wir wickeln Schäden direkt mit Ihrer Gebäudeversicherung ab und übernehmen die komplette Schadensdokumentation.', 4),
-('Bieten Sie Festpreisgarantie?', 'Unsere schriftlichen Angebote sind verbindliche Festpreise. Es gibt keine versteckten Kosten – Sie wissen genau, was auf Sie zukommt.', 5),
-('Welche Garantie geben Sie auf Ihre Arbeit?', 'Auf alle Leistungen geben wir die gesetzliche Gewährleistung von 5 Jahren. Auf Dachdeckerarbeiten zusätzlich erweiterte Garantieleistungen.', 6);
+('Welche Leistungen bietet Prammer & Prammer GmbH an?', 'Der Fokus liegt auf Sanitärinstallation, Heizungstechnik, Badsanierung, Solar- und Wärmetechnik sowie Service- und Reparaturarbeiten.', 1),
+('Ist Prammer & Prammer GmbH in Linz tätig?', 'Ja. Der Unternehmenssitz befindet sich in der Reindlstraße 21 in 4040 Linz. Anfragen aus Linz und dem Zentralraum Oberösterreich sind möglich.', 2),
+('Kann ich eine Anfrage online senden?', 'Ja. Über das Kontaktformular können Sie Ihr Anliegen kurz beschreiben. Je genauer die Angaben, desto schneller kann die passende Rückmeldung erfolgen.', 3),
+('Werden auch kleinere Reparaturen übernommen?', 'Ja, Service- und Reparaturanfragen können über das Formular oder telefonisch geklärt werden. Die konkrete Umsetzung hängt vom Anliegen und der Verfügbarkeit ab.', 4),
+('Bietet das Unternehmen Badsanierungen an?', 'Ja, Badsanierung ist ein zentraler Leistungsbereich – von einzelnen Sanitärkomponenten bis zu abgestimmten Lösungen im Bestand.', 5),
+('Welche Informationen helfen bei einer Anfrage?', 'Hilfreich sind Adresse/Ort, Art des Anliegens, Fotos falls vorhanden, gewünschter Zeitraum und eine Telefonnummer für Rückfragen.', 6);
 
 INSERT INTO public.seo_settings (page_path, title, description) VALUES
-('/', 'Mustermann Bau & Sanierung – Handwerk mit Substanz | Berlin', 'Ihr regionaler Meisterbetrieb für Bau, Sanierung, Dachdeckerei und Spenglerei in Berlin und Brandenburg. Kostenlose Anfrage in 24h.'),
-('/leistungen', 'Unsere Leistungen – Bau, Sanierung, Dach, Fassade | Mustermann Bau', 'Hochbau, Sanierung, Dachdeckerei, Spenglerei, Fassade und Notdienst – alles aus einer Hand vom Meisterbetrieb in Berlin.'),
-('/referenzen', 'Referenzen & Projekte | Mustermann Bau Berlin', 'Über 500 erfolgreich abgeschlossene Bauprojekte in Berlin und Brandenburg. Sehen Sie Beispiele unserer Arbeit.'),
-('/ueber-uns', 'Über uns – 25 Jahre Handwerkserfahrung | Mustermann Bau', 'Lernen Sie unseren Familienbetrieb kennen: Meisterqualifikation, geprüfte Mitarbeiter, regionale Verwurzelung seit 1998.'),
-('/einsatzgebiete', 'Einsatzgebiete – Berlin, Potsdam & Brandenburg | Mustermann Bau', 'Wir sind Ihr Handwerksbetrieb für Berlin, Potsdam und das gesamte Berliner Umland. Hier finden Sie alle Einsatzgebiete.'),
-('/kontakt', 'Kontakt & Anfrage stellen | Mustermann Bau Berlin', 'Kontaktieren Sie uns für Ihr Bauprojekt. Kostenlose Erstberatung, schnelle Rückmeldung, faire Festpreise.'),
-('/impressum', 'Impressum | Mustermann Bau & Sanierung', 'Impressum und Anbieterkennzeichnung der Mustermann Bau & Sanierung GmbH.'),
-('/datenschutz', 'Datenschutzerklärung | Mustermann Bau & Sanierung', 'Informationen zum Datenschutz und zur Verarbeitung personenbezogener Daten gemäß DSGVO.');
+('/', 'Installateur Linz | Prammer & Prammer GmbH', 'Sanitär, Heizung, Bad & Wärmetechnik in Linz. Prammer & Prammer GmbH – Ihr Installateur in 4040 Linz.'),
+('/leistungen', 'Leistungen Installateur Linz | Sanitär, Heizung, Bad', 'Sanitärinstallation, Heizungstechnik, Badsanierung, Solar- und Wärmetechnik sowie Service in Linz und Umgebung.'),
+('/referenzen', 'Referenzen Installateur Linz | Prammer & Prammer GmbH', 'Ausgewählte Installateurarbeiten und typische Projekte rund um Sanitär, Bad, Heizung und Wärmetechnik in Linz.'),
+('/ueber-uns', 'Über Prammer & Prammer GmbH | Installateur Linz', 'Prammer & Prammer GmbH aus Linz: Installationen, Sanitär, Heizung, Klima- und Sanitärbedarf sowie Wärme- und Solartechnik.'),
+('/einsatzgebiete', 'Einsatzgebiete Installateur Linz & Umgebung', 'Prammer & Prammer GmbH ist als Installateur in Linz, Urfahr, Leonding, Traun, Wels und im Zentralraum Oberösterreich tätig.'),
+('/kontakt', 'Kontakt Installateur Linz | Prammer & Prammer GmbH', 'Kontakt zu Prammer & Prammer GmbH in Linz: Anfrage für Sanitär, Heizung, Bad, Service und Wärmetechnik stellen.'),
+('/impressum', 'Impressum | Prammer & Prammer GmbH', 'Impressum und Anbieterkennzeichnung der Prammer & Prammer GmbH in Linz.'),
+('/datenschutz', 'Datenschutz | Prammer & Prammer GmbH', 'Datenschutzerklärung gemäß DSGVO der Prammer & Prammer GmbH.');

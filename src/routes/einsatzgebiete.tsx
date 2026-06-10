@@ -9,8 +9,8 @@ import { PageHero } from "@/components/PageHero";
 export const Route = createFileRoute("/einsatzgebiete")({
   head: () => ({
     meta: [
-      { title: "Einsatzgebiete – Berlin, Potsdam & Brandenburg" },
-      { name: "description", content: "Wir sind Ihr Handwerksbetrieb für Berlin, Potsdam und das gesamte Berliner Umland." },
+      { title: "Einsatzgebiete Installateur Linz & Umgebung" },
+      { name: "description", content: "Prammer & Prammer GmbH ist als Installateur in Linz, Urfahr, Leonding, Traun, Wels und im Zentralraum Oberösterreich tätig." },
     ],
   }),
   component: LocationsPage,
@@ -29,8 +29,8 @@ function LocationsPage() {
     <>
       <PageHero
         eyebrow="Einsatzgebiete"
-        title="Wir sind in Ihrer Region für Sie da"
-        description="Kurze Wege, schnelle Reaktionszeiten und persönliche Ansprechpartner vor Ort."
+        title="Installateur in Linz und Umgebung"
+        description="Kurze Wege, klare Abstimmung und persönliche Ansprechpartner im Zentralraum Oberösterreich."
       />
       <section className="container-tight py-20">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

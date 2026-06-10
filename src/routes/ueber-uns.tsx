@@ -1,23 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Award, Heart, Shield, Target } from "lucide-react";
+import { Award, HeartHandshake, Shield, Target } from "lucide-react";
 import { useSeo } from "@/hooks/useSiteSettings";
 import { PageHero } from "@/components/PageHero";
 
 export const Route = createFileRoute("/ueber-uns")({
   head: () => ({
     meta: [
-      { title: "Über uns – 25 Jahre Handwerkserfahrung" },
-      { name: "description", content: "Lernen Sie unseren Familienbetrieb kennen: Meisterqualifikation, geprüfte Mitarbeiter, regionale Verwurzelung." },
+      { title: "Über Prammer & Prammer GmbH | Installateur Linz" },
+      { name: "description", content: "Prammer & Prammer GmbH aus Linz: Installationen, Sanitär, Heizung, Klima- und Sanitärbedarf sowie Wärme- und Solartechnik." },
     ],
   }),
   component: AboutPage,
 });
 
 const VALUES = [
-  { icon: Award, t: "Meisterqualität", d: "Jeder Auftrag wird von einem geprüften Handwerksmeister begleitet." },
-  { icon: Heart, t: "Familienbetrieb", d: "Inhabergeführt in zweiter Generation – Verantwortung statt Schichtdienst." },
-  { icon: Shield, t: "Verlässlichkeit", d: "Festpreise, Termintreue, schriftliche Garantie. Keine Überraschungen." },
-  { icon: Target, t: "Regional verwurzelt", d: "Kurze Wege, persönliche Ansprechpartner, dauerhafte Verfügbarkeit." },
+  { icon: Award, t: "Fachliche Ausführung", d: "Installationsarbeiten brauchen saubere Planung, präzise Umsetzung und verlässliche Abstimmung." },
+  { icon: HeartHandshake, t: "Persönlicher Kontakt", d: "Klare Kommunikation statt anonymer Massenabwicklung – besonders wichtig bei Bad, Heizung und Service." },
+  { icon: Shield, t: "Verlässlichkeit", d: "Wir setzen auf nachvollziehbare Angebote, saubere Dokumentation und lösungsorientierte Arbeit." },
+  { icon: Target, t: "Regional verwurzelt", d: "Sitz in Linz, kurze Wege im Zentralraum Oberösterreich und ein realistischer Blick auf jedes Projekt." },
 ];
 
 function AboutPage() {
@@ -26,28 +26,25 @@ function AboutPage() {
     <>
       <PageHero
         eyebrow="Über uns"
-        title="Handwerk aus Überzeugung – seit 1998"
-        description="Was als kleine Werkstatt begann, ist heute ein Meisterbetrieb mit über 30 Mitarbeitern. Geblieben ist die Haltung: ehrliche Arbeit, ehrliche Preise."
+        title="Prammer & Prammer GmbH – Installateur aus Linz"
+        description="Ein regionaler Fachbetrieb für Installationen, Sanitär, Heizung, Bad sowie Wärme- und Solartechnik."
       />
 
       <section className="container-tight py-20 grid gap-12 lg:grid-cols-2 items-start">
         <div>
-          <span className="text-xs uppercase tracking-[0.2em] text-accent font-semibold">Unsere Geschichte</span>
+          <span className="text-xs uppercase tracking-[0.2em] text-accent font-semibold">Unternehmen</span>
           <h2 className="mt-4 font-display text-3xl md:text-4xl font-extrabold leading-tight">
-            Drei Generationen, ein Anspruch.
+            Wasser, Wärme und Sanitär mit klarem Qualitätsanspruch.
           </h2>
           <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
             <p>
-              1998 gründete Maurermeister Hans Mustermann unseren Betrieb mit einer einfachen
-              Überzeugung: Bauen ist Vertrauenssache. Dieser Grundsatz prägt uns bis heute.
+              Prammer & Prammer GmbH ist in Linz ansässig und im Bereich Installationen sowie Handel mit Heizung-, Klima- und Sanitärbedarf tätig.
             </p>
             <p>
-              Heute realisieren wir mit über 30 festangestellten Mitarbeitern – Meister, Gesellen
-              und Auszubildende – jährlich rund 80 Projekte zwischen Berlin und Brandenburg.
+              Der Fokus der Website liegt bewusst auf den Themen, die Kundinnen und Kunden schnell verstehen: Sanitärinstallation, Badsanierung, Heizungstechnik, Wärmelösungen und Service.
             </p>
             <p>
-              Unser Versprechen: Wir nehmen nur so viele Aufträge an, wie wir mit eigener Mannschaft
-              in Topqualität umsetzen können. Keine Subunternehmer, keine Kompromisse.
+              Statt großer Werbeversprechen zählt ein seriöser Auftritt: klare Leistungen, direkte Kontaktwege, regionale Nähe und ein professioneller erster Eindruck.
             </p>
           </div>
         </div>
@@ -66,7 +63,7 @@ function AboutPage() {
 
       <section className="bg-surface border-y border-border py-16">
         <div className="container-tight grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[["1998", "Gründung"], ["30+", "Mitarbeiter"], ["500+", "Projekte"], ["98%", "Weiterempfehlung"]].map(([n, l]) => (
+          {[["Linz", "Standort"], ["4040", "Postleitzahl"], ["Sanitär", "Kernleistung"], ["Heizung", "Wärmetechnik"]].map(([n, l]) => (
             <div key={l}>
               <p className="font-display text-4xl md:text-5xl font-extrabold text-primary">{n}</p>
               <p className="mt-2 text-xs uppercase tracking-widest text-muted-foreground">{l}</p>
