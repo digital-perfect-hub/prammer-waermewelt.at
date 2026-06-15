@@ -9,11 +9,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 export default defineConfig({
   vite: {
     preview: {
-      allowedHosts: [
-        "gg0w0sks4wo4gs0wko40wgkg.87.106.91.56.sslip.io",
-        "waermewelt.at",
-        "www.waermewelt.at",
-      ],
+      allowedHosts: true,
     },
   },
 });
