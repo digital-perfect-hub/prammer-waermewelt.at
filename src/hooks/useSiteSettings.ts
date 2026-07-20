@@ -1,30 +1,25 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { DEFAULT_SITE_SETTINGS } from "@/data/siteContent";
 
 export type SiteSettings = Tables<"site_settings">;
 
-const BRAND_PRIMARY = "#0B2D5C";
-const BRAND_ACCENT = "#D71920";
-const BRAND_PRIMARY_SOFT = "#E7F0FF";
-const BRAND_SURFACE = "#F8FBFF";
+const BRAND_PRIMARY = "#2D93A5";
+const BRAND_ACCENT = "#D9CF36";
+const BRAND_PRIMARY_SOFT = "#ECF8FA";
+const BRAND_SURFACE = "#F7FBFB";
 
-const LEGACY_THEME_VALUES = new Set([
-  "#1a2332",
-  "#e58a2d",
-  "#0f4c4a",
-  "#f59e5b",
-  "#ff8559",
-]);
+const LEGACY_THEME_VALUES = new Set(["#1a2332", "#e58a2d", "#0f4c4a", "#f59e5b", "#ff8559", "#0b2d5c", "#d71920"]);
 
 export function useSiteSettings() {
-  const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [settings, setSettings] = useState<SiteSettings>(DEFAULT_SITE_SETTINGS);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
 
-    // Sofort setzen, damit der erste Render bereits stabil blau/rot/weiß bleibt.
+    // Sofort setzen, damit der erste Render bereits stabil im finalen Markenlook erscheint.
     applyThemeColors(null);
 
     supabase
@@ -35,7 +30,7 @@ export function useSiteSettings() {
       .maybeSingle()
       .then(({ data }) => {
         if (cancelled) return;
-        const nextSettings = data as SiteSettings | null;
+        const nextSettings = mergeSiteSettings(data as SiteSettings | null);
         setSettings(nextSettings);
         applyThemeColors(nextSettings);
         setLoading(false);
@@ -47,6 +42,46 @@ export function useSiteSettings() {
   }, []);
 
   return { settings, loading };
+}
+
+function mergeSiteSettings(settings: SiteSettings | null): SiteSettings {
+  if (!settings) return DEFAULT_SITE_SETTINGS;
+
+  return {
+    ...DEFAULT_SITE_SETTINGS,
+    ...settings,
+    company_name: settings.company_name?.trim() || DEFAULT_SITE_SETTINGS.company_name,
+    phone: settings.phone?.trim() || DEFAULT_SITE_SETTINGS.phone,
+    email: settings.email?.trim() || DEFAULT_SITE_SETTINGS.email,
+    address: settings.address?.trim() || DEFAULT_SITE_SETTINGS.address,
+    cta_text: settings.cta_text?.trim() || DEFAULT_SITE_SETTINGS.cta_text,
+    hero_headline: resolveContentValue(
+      settings.hero_headline,
+      DEFAULT_SITE_SETTINGS.hero_headline,
+      LEGACY_HERO_HEADLINES,
+    ),
+    hero_subheadline: resolveContentValue(
+      settings.hero_subheadline,
+      DEFAULT_SITE_SETTINGS.hero_subheadline,
+      LEGACY_HERO_SUBHEADLINES,
+    ),
+    hero_image_url: resolveContentValue(
+      settings.hero_image_url,
+      DEFAULT_SITE_SETTINGS.hero_image_url,
+      LEGACY_HERO_IMAGES,
+    ),
+    logo_url: settings.logo_url?.trim() || null,
+  };
+}
+
+function resolveContentValue(
+  value: string | null | undefined,
+  fallback: string | null,
+  legacyValues: Set<string>,
+) {
+  const normalized = value?.trim();
+  if (!normalized || legacyValues.has(normalized)) return fallback;
+  return normalized;
 }
 
 export function useSeo(path: string) {
